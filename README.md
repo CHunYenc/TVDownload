@@ -30,7 +30,7 @@ apt install chromium-driver -y # Debian
 python3 main.py
 ```
 
-## 未來想開發的功能
+## 加入的功能
 
-- [ ] 下載完同步至 OneDrive
-- [ ] 同步完成後刪除本地端檔案
+- [v] 下載完同步至 OneDrive
+- [v] 同步完成後刪除本地端檔案

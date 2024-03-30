@@ -117,3 +117,9 @@ def download(url):
 
     # 轉檔
     ffmpegEncode(folderPath, dirName, encode)
+    
+    # move dirName to /home/ubuntu/OneDrive/jable
+    os.system(f'mv {folderPath} /home/ubuntu/OneDrive/jable')
+    print('下載完成, 檔案已移動至 /home/ubuntu/OneDrive/jable/' + dirName)
+    os.system(f'onedrive --upload-only --remove-source-files --synchronize')
+    print('檔案已上傳至 OneDrive, 並刪除本地端檔案')
