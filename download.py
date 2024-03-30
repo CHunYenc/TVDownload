@@ -14,6 +14,7 @@ from encode import ffmpegEncode
 from args import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 
 def download(url):
   encode = 0 #不轉檔
@@ -37,7 +38,8 @@ def download(url):
   if not os.path.exists(dirName):
       os.makedirs(dirName)
   folderPath = os.path.join(os.getcwd(), dirName)
-  
+  # 執行 apt install chromium-chromedriver -y 後的預設路徑, 你也可以設定其他路徑
+  service = Service('/usr/bin/chromedriver')
   #配置Selenium參數
   options = Options()
   options.add_argument('--no-sandbox')
@@ -45,7 +47,7 @@ def download(url):
   options.add_argument('--disable-extensions')
   options.add_argument('--headless')
   options.add_argument("user-agent=Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36")
-  dr = webdriver.Chrome(options=options)
+  dr = webdriver.Chrome(options=options, service=service)
   dr.get(url)
   result = re.search("https://.+m3u8", dr.page_source)
   print(f'result: {result}')
