@@ -38,8 +38,6 @@ def download(url):
   if not os.path.exists(dirName):
       os.makedirs(dirName)
   folderPath = os.path.join(os.getcwd(), dirName)
-  # 執行 apt install chromium-chromedriver -y 後的預設路徑, 你也可以設定其他路徑
-  service = Service('/usr/bin/chromedriver')
   #配置Selenium參數
   options = Options()
   options.add_argument('--no-sandbox')
@@ -47,7 +45,15 @@ def download(url):
   options.add_argument('--disable-extensions')
   options.add_argument('--headless')
   options.add_argument("user-agent=Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36")
-  dr = webdriver.Chrome(options=options, service=service)
+  # 判斷系統為 linux or windows, 執行 chromedriver.exe 的路徑
+  if os.name == 'nt':
+      # Windows
+      service = Service('chromedriver.exe')
+      dr = webdriver.Chrome(options=options)
+  else:
+      # Linux
+      service = Service('/usr/bin/chromedriver')
+      dr = webdriver.Chrome(options=options, service=service)
   dr.get(url)
   result = re.search("https://.+m3u8", dr.page_source)
   print(f'result: {result}')
